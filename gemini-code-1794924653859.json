@@ -1,0 +1,46 @@
+{
+  "categories": [
+    {
+      "title": "Na sztuki i pęczki",
+      "items": [
+        { "id": "salata", "name": "Sałata", "price": 4.50, "unit": "szt", "emoji": "🥬", "bg": "#d9efb0" },
+        { "id": "rzodkiewka", "name": "Rzodkiewka", "price": 3.50, "unit": "pęczek", "emoji": "🌱", "bg": "#fbd9e0" },
+        { "id": "koperek", "name": "Koperek", "price": 3.50, "unit": "pęczek", "emoji": "🌿", "bg": "#dcefc8" },
+        { "id": "natka", "name": "Natka pietruszki", "price": 3.50, "unit": "pęczek", "emoji": "🌿", "bg": "#d3ecc0" },
+        { "id": "szczypiorek", "name": "Szczypiorek", "price": 3.00, "unit": "pęczek", "emoji": "🌱", "bg": "#e2f1c4" },
+        { "id": "kapusta", "name": "Kapusta", "price": 6.00, "unit": "szt", "emoji": "🥬", "bg": "#e4f0cf" },
+        { "id": "kalafior", "name": "Kalafior", "price": 8.00, "unit": "szt", "emoji": "🥦", "bg": "#f3f0e2" },
+        { "id": "brokul", "name": "Brokuł", "price": 7.00, "unit": "szt", "emoji": "🥦", "bg": "#cfe8c0" },
+        { "id": "ananas", "name": "Ananas", "price": 5.00, "unit": "szt", "emoji": "🍍", "bg": "#fbf0b8" },
+        { "id": "granat", "name": "Granat", "price": 2.50, "unit": "szt", "emoji": "🍎", "bg": "#f6d0d6" },
+        { "id": "awokado", "name": "Awokado", "price": 4.50, "unit": "szt", "emoji": "🥑", "bg": "#dfeab8" },
+        { "id": "czosnek", "name": "Czosnek", "price": 3.00, "unit": "szt", "emoji": "🧄", "bg": "#f3ecdc" },
+        { "id": "paolo", "name": "Paolo", "price": 5.00, "unit": "szt", "emoji": "🥬", "bg": "#e8efd6" }
+      ]
+    },
+    {
+      "title": "Ważone (cena za 1 kg)",
+      "items": [
+        { "id": "buraki", "name": "Buraki", "price": 4.00, "unit": "kg", "emoji": "🟣", "bg": "#ecd3e4" },
+        { "id": "ogorki-t", "name": "Ogórki tunelowe", "price": 14.00, "unit": "kg", "emoji": "🥒", "bg": "#dcefc8" },
+        { "id": "ogorek-sz", "name": "Ogórek szklarniowy", "price": 10.00, "unit": "kg", "emoji": "🥒", "bg": "#d3ecc0" },
+        { "id": "papryka", "name": "Papryka", "price": 10.00, "unit": "kg", "emoji": "🫑", "bg": "#fde0c2" },
+        { "id": "jablka", "name": "Wszystkie odmiany jabłek", "price": 5.90, "unit": "kg", "emoji": "🍎", "bg": "#f9d6d6" },
+        { "id": "cukinia", "name": "Cukinia", "price": 7.00, "unit": "kg", "emoji": "🥒", "bg": "#dfeab8" },
+        { "id": "cebula", "name": "Cebula", "price": 2.50, "unit": "kg", "emoji": "🧅", "bg": "#f0e2cf" },
+        { "id": "ziemniaki", "name": "Ziemniaki", "price": 2.50, "unit": "kg", "emoji": "🥔", "bg": "#f1e4c8" },
+        { "id": "pom-kokt", "name": "Pomidor koktajlowy", "price": 14.90, "unit": "kg", "emoji": "🍅", "bg": "#fbd9d0" },
+        { "id": "pom-mal", "name": "Pomidor malinowy", "price": 18.00, "unit": "kg", "emoji": "🍅", "bg": "#f8cdd0" },
+        { "id": "pom-sal", "name": "Pomidor sałatkowy", "price": 10.00, "unit": "kg", "emoji": "🍅", "bg": "#fbd9d0" },
+        { "id": "kiwi", "name": "Kiwi", "price": 18.00, "unit": "kg", "emoji": "🥝", "bg": "#dcebb4" },
+        { "id": "pomarancze", "name": "Pomarańcze", "price": 5.00, "unit": "kg", "emoji": "🍊", "bg": "#fde0b8" },
+        { "id": "pom-zielone", "name": "Pomarańcze zielone", "price": 13.00, "unit": "kg", "emoji": "🍊", "bg": "#e2efc0" },
+        { "id": "mandarynki", "name": "Mandarynki", "price": 5.00, "unit": "kg", "emoji": "🍊", "bg": "#fdd9b0" },
+        { "id": "sliwki", "name": "Śliwki węgierki", "price": 8.50, "unit": "kg", "emoji": "🍇", "bg": "#e0d3ec" },
+        { "id": "banany", "name": "Banany", "price": 6.90, "unit": "kg", "emoji": "🍌", "bg": "#fbf0b8" },
+        { "id": "cytryny", "name": "Cytryny", "price": 10.00, "unit": "kg", "emoji": "🍋", "bg": "#fbf3b0" },
+        { "id": "winogrona", "name": "Winogrona", "price": 10.00, "unit": "kg", "emoji": "🍇", "bg": "#e6e0c0" }
+      ]
+    }
+  ]
+}
