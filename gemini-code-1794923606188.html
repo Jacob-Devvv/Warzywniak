@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Świeża Wieża – warzywniak z dostawą</title>
+<meta name="description" content="Świeże warzywa i owoce z Łodzi. Zamów online, dostawa do 100 m gratis lub od 70 zł za darmo!">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16301f; --muted:#5d7264; --leaf:#1f6b3f; --leaf-dark:#154d2d;
+  --lime:#d9efb0; --bg:#f5f8ee; --card:#fff; --line:#e0e8d3; --tomato:#e4572e;
+  --r:18px;
+  /* Sprężysta funkcja gumowa (bouncy / spring) */
+  --spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:Figtree,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding-bottom:84px}
+h1,h2,h3{font-family:"Bricolage Grotesque",Figtree,sans-serif;line-height:1.1}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--tomato);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+/* Hotbar promocyjny */
+.hotbar{background:var(--leaf-dark);color:#fff;text-align:center;padding:12px 15px;font-weight:700;font-size:0.95rem;letter-spacing:0.02em}
+
+header{padding:18px 0}
+.brand{display:flex;align-items:center;gap:10px;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.35rem}
+.brand i{width:34px;height:34px;border-radius:10px;background:var(--leaf);display:grid;place-items:center;font-style:normal;font-size:1.1rem;transition:transform .4s var(--spring)}
+.brand:hover i{transform:rotate(15deg) scale(1.2)}
+
+.hero{padding:28px 0 36px}
+.hero h1{font-size:clamp(2.4rem,7vw,4.6rem);font-weight:800;letter-spacing:-.03em;max-width:12ch;color:var(--leaf-dark)}
+.hero p{margin-top:16px;max-width:46ch;color:var(--muted);font-size:1.1rem}
+.hero .pill{display:inline-block;margin-top:22px;background:var(--lime);color:var(--leaf-dark);font-weight:700;padding:10px 16px;border-radius:99px;transition:transform .4s var(--spring)}
+.hero .pill:hover{transform:scale(1.05)}
+
+.layout{display:grid;gap:28px;grid-template-columns:1fr;align-items:start}
+@media(min-width:960px){.layout{grid-template-columns:1fr 400px}.side{position:sticky;top:16px}}
+h2{font-size:1.7rem;margin-bottom:18px;letter-spacing:-.01em}
+
+.cat{font-size:1.25rem;margin:30px 0 14px;color:var(--leaf-dark)}
+.cat:first-of-type{margin-top:0}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+
+/* GUMOWE KAFELKI (Bouncy Hover & Click) */
+.tile{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .4s var(--spring), box-shadow .4s var(--spring)}
+.tile:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 16px 32px rgba(22,48,31,0.1)}
+
+.ph{position:relative;aspect-ratio:16/9;display:grid;place-items:center;font-size:3.2rem;transition:transform .5s var(--spring)}
+.tile:hover .ph span{transform:scale(1.25) rotate(-8deg)}
+.tile .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:12px;flex:1}
+.tile h3{font-size:1.1rem}
+.price{color:var(--muted);font-size:.95rem}
+.price b{color:var(--ink);font-size:1.15rem}
+
+/* GUMOWE PRZYCISKI ILOŚCI */
+.qty{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--bg);border-radius:99px;padding:4px}
+.qty button{width:40px;height:40px;border:0;border-radius:50%;background:var(--leaf);color:#fff;font-size:1.4rem;line-height:1;cursor:pointer;transition:transform .3s var(--spring), background .2s ease}
+.qty button:disabled{background:#c8d4c0;cursor:default;transform:none!important}
+.qty button:not(:disabled):hover{transform:scale(1.15);background:var(--leaf-dark)}
+.qty button:not(:disabled):active{transform:scale(0.85)}
+.qty span{font-weight:700;min-width:70px;text-align:center;transition:transform .3s var(--spring)}
+
+/* Panel koszyka z gumowym efektem przy zmianach */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;margin-bottom:16px;box-shadow:0 4px 20px rgba(0,0,0,0.02)}
+.panel h2{font-size:1.35rem;margin-bottom:14px}
+.empty{color:var(--muted)}
+.line{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line);animation:bounceIn .4s var(--spring)}
+.line small{display:block;color:var(--muted)}
+.line b{white-space:nowrap}
+.sum{display:flex;justify-content:space-between;padding:6px 0;color:var(--muted)}
+.sum.total{color:var(--ink);font-weight:800;font-size:1.3rem;border-top:2px solid var(--ink);margin-top:8px;padding-top:12px}
+
+label{display:block;font-weight:600;font-size:.92rem;margin:12px 0 6px}
+input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;transition:all .3s var(--spring)}
+input:focus{border-color:var(--leaf);outline:none;box-shadow:0 0 0 4px rgba(31,107,63,0.15);transform:scale(1.01)}
+[hidden]{display:none!important}
+.area{font-weight:700;color:var(--leaf-dark);background:var(--lime);padding:10px 14px;border-radius:12px;margin-bottom:14px}
+.hint{font-size:.85rem;color:var(--muted);margin-top:6px}
+.deliv{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--lime);color:var(--leaf-dark);font-weight:600;font-size:.95rem}
+.deliv.err{background:#fde3dc;color:#8a2b12}
+
+/* GUMOWY PRZYCISK ZAMÓWIENIA */
+.order{width:100%;margin-top:16px;border:0;border-radius:14px;background:var(--leaf);color:#fff;font-weight:700;font-size:1.05rem;padding:16px;cursor:pointer;transition:transform .4s var(--spring), filter .2s ease, box-shadow .3s ease}
+.order:hover{filter:brightness(1.05);transform:translateY(-3px) scale(1.02);box-shadow:0 10px 25px rgba(31,107,63,0.3)}
+.order:active{transform:scale(0.96)}
+.order:disabled{background:#c8d4c0;cursor:default;transform:none;box-shadow:none}
+.msg{margin-top:10px;font-size:.92rem;color:#8a2b12;min-height:1.2em}
+
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--leaf-dark);color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;z-index:10;box-shadow:0 -4px 20px rgba(0,0,0,0.15)}
+.bar a{background:#fff;color:var(--leaf-dark);font-weight:700;padding:10px 18px;border-radius:99px;text-decoration:none;transition:transform .4s var(--spring)}
+.bar a:hover{transform:scale(1.1)}
+@media(min-width:960px){.bar{display:none}body{padding-bottom:0}}
+footer{margin-top:40px;padding:24px 0;color:var(--muted);font-size:.9rem}
+
+@keyframes bounceIn{from{opacity:0;transform:scale(0.9) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+</style>
+</head>
+<body>
+
+<div class="hotbar">🚀 Super okazja: Dostawa za 0 zł przy zamówieniach powyżej 70 zł! (Do 100 m zawsze gratis)</div>
+<header><div class="wrap"><div class="brand"><i>🥬</i>Świeża Wieża</div></div></header>
+
+<section class="hero"><div class="wrap">
+  <h1>Świeże warzywa, prosto pod drzwi.</h1>
+  <p>Lokalny warzywniak przy ul. Wróblewskiego 21F w Łodzi. Wybierz produkty, podaj adres i wyślij zamówienie.</p>
+  <span class="pill">Dostawa od 70 zł: 0 zł</span>
+</div></section>
+
+<main class="wrap layout">
+  <section>
+    <h2>Nasze produkty</h2>
+    <div id="products"></div>
+  </section>
+
+  <aside class="side" id="cart">
+    <div class="panel">
+      <h2>Twój koszyk</h2>
+      <div id="cartLines"></div>
+      <div class="sum"><span>Waga / sztuki</span><span id="sumWeight">0 kg</span></div>
+      <div class="sum"><span>Produkty</span><span id="sumGoods">0,00 zł</span></div>
+      <div class="sum"><span>Dostawa</span><span id="sumDeliv">–</span></div>
+      <div class="sum total"><span>Do zapłaty</span><span id="sumTotal">0,00 zł</span></div>
+    </div>
+
+    <div class="panel">
+      <h2>Dostawa i dane</h2>
+      <label for="name">Imię</label>
+      <input id="name" autocomplete="given-name" placeholder="np. Anna">
+      <label for="phone">Numer telefonu</label>
+      <input id="phone" type="tel" autocomplete="tel" placeholder="np. 600 100 200">
+      <p class="area">Dowozimy wyłącznie na terenie Łodzi.</p>
+      <label for="address">Wpisz swoją ulicę w Łodzi</label>
+      <input id="address" autocomplete="street-address" placeholder="np. Stefanowskiego 15">
+      <p class="hint">Podaj ulicę i numer. Koszt dostawy policzymy automatycznie.</p>
+      <div class="deliv" id="delivInfo">Wpisz ulicę, aby poznać koszt dostawy.</div>
+
+      <button class="order" id="orderBtn" type="button">Zamów teraz</button>
+      <p class="msg" id="formMsg" role="alert"></p>
+    </div>
+  </aside>
+</main>
+
+<footer><div class="wrap">© Świeża Wieża · ul. Wróblewskiego 21F, Łódź</div></footer>
+
+<div class="bar"><div><small>Do zapłaty</small><br><b id="barTotal">0,00 zł</b></div><a href="#cart">Pokaż koszyk</a></div>
+
+<script>
+const CONFIG = {
+  telegramToken: "9286817534:AAEbJg4L5DGCDiXHQT9Ith-7I5S40CD1LYw", 
+  telegramChatId: "7313323652", 
+  shopAddress: "Wróblewskiego 21F, Łódź",
+  shopCoords: { lat: 51.7485, lng: 19.4502 },
+  maxDistanceKm: 15,                
+  freeRadiusKm: 0.1,                
+  freeDeliveryThreshold: 70.00,     
+  ratePerKm: 2.00,                  
+  roundTrip: true                   
+};
+
+let CATEGORIES = [
+  { title: "Na sztuki i pęczki", items: [
+    { id:"salata",     name:"Sałata",          price:4.50, unit:"szt",    emoji:"🥬", bg:"#d9efb0" },
+    { id:"rzodkiewka", name:"Rzodkiewka",      price:3.50, unit:"pęczek", emoji:"🌱", bg:"#fbd9e0" },
+    { id:"koperek",    name:"Koperek",         price:3.50, unit:"pęczek", emoji:"🌿", bg:"#dcefc8" },
+    { id:"natka",      name:"Natka pietruszki",price:3.50, unit:"pęczek", emoji:"🌿", bg:"#d3ecc0" },
+    { id:"szczypiorek",name:"Szczypiorek",     price:3.00, unit:"pęczek", emoji:"🌱", bg:"#e2f1c4" },
+    { id:"kapusta",    name:"Kapusta",         price:6.00, unit:"szt",    emoji:"🥬", bg:"#e4f0cf" },
+    { id:"kalafior",   name:"Kalafior",        price:8.00, unit:"szt",    emoji:"🥦", bg:"#f3f0e2" },
+    { id:"brokul",     name:"Brokuł",          price:7.00, unit:"szt",    emoji:"🥦", bg:"#cfe8c0" },
+    { id:"ananas",     name:"Ananas",          price:5.00, unit:"szt",    emoji:"🍍", bg:"#fbf0b8" },
+    { id:"granat",     name:"Granat",          price:2.50, unit:"szt",    emoji:"🍎", bg:"#f6d0d6" },
+    { id:"awokado",    name:"Awokado",         price:4.50, unit:"szt",    emoji:"🥑", bg:"#dfeab8" },
+    { id:"czosnek",    name:"Czosnek",         price:3.00, unit:"szt",    emoji:"🧄", bg:"#f3ecdc" },
+    { id:"paolo",      name:"Paolo",           price:5.00, unit:"szt",    emoji:"🥬", bg:"#e8efd6" }
+  ]},
+  { title: "Ważone (cena za 1 kg)", items: [
+    { id:"buraki",     name:"Buraki",                 price:4.00,  unit:"kg", emoji:"🟣", bg:"#ecd3e4" },
+    { id:"ogorki-t",   name:"Ogórki tunelowe",        price:14.00, unit:"kg", emoji:"🥒", bg:"#dcefc8" },
+    { id:"ogorek-sz",  name:"Ogórek szklarniowy",     price:10.00, unit:"kg", emoji:"🥒", bg:"#d3ecc0" },
+    { id:"papryka",    name:"Papryka",                price:10.00, unit:"kg", emoji:"🫑", bg:"#fde0c2" },
+    { id:"jablka",     name:"Wszystkie odmiany jabłek",price:5.90,  unit:"kg", emoji:"🍎", bg:"#f9d6d6" },
+    { id:"cukinia",    name:"Cukinia",                price:7.00,  unit:"kg", emoji:"🥒", bg:"#dfeab8" },
+    { id:"cebula",     name:"Cebula",                 price:2.50,  unit:"kg", emoji:"🧅", bg:"#f0e2cf" },
+    { id:"ziemniaki",  name:"Ziemniaki",              price:2.50,  unit:"kg", emoji:"🥔", bg:"#f1e4c8" },
+    { id:"pom-kokt",   name:"Pomidor koktajlowy",     price:14.90, unit:"kg", emoji:"🍅", bg:"#fbd9d0" },
+    { id:"pom-mal",    name:"Pomidor malinowy",       price:18.00, unit:"kg", emoji:"🍅", bg:"#f8cdd0" },
+    { id:"pom-sal",    name:"Pomidor sałatkowy",      price:10.00, unit:"kg", emoji:"🍅", bg:"#fbd9d0" },
+    { id:"kiwi",       name:"Kiwi",                   price:18.00, unit:"kg", emoji:"🥝", bg:"#dcebb4" },
+    { id:"pomarancze", name:"Pomarańcze",             price:5.00,  unit:"kg", emoji:"🍊", bg:"#fde0b8" },
+    { id:"pom-zielone",name:"Pomarańcze zielone",     price:13.00, unit:"kg", emoji:"🍊", bg:"#e2efc0" },
+    { id:"mandarynki", name:"Mandarynki",             price:5.00,  unit:"kg", emoji:"🍊", bg:"#fdd9b0" },
+    { id:"sliwki",     name:"Śliwki węgierki",        price:8.50,  unit:"kg", emoji:"🍇", bg:"#e0d3ec" },
+    { id:"banany",     name:"Banany",                 price:6.90,  unit:"kg", emoji:"🍌", bg:"#fbf0b8" },
+    { id:"cytryny",    name:"Cytryny",                price:10.00, unit:"kg", emoji:"🍋", bg:"#fbf3b0" },
+    { id:"winogrona",  name:"Winogrona",              price:10.00, unit:"kg", emoji:"🍇", bg:"#e6e0c0" }
+  ]}
+];
+let PRODUCTS = CATEGORIES.flatMap(c => c.items);
+
+const $ = id => document.getElementById(id);
+const pln = n => n.toLocaleString("pl-PL", { style:"currency", currency:"PLN" });
+const num = n => n.toLocaleString("pl-PL", { maximumFractionDigits:2 });
+const cart = {};
+let distance = null;
+
+const step = p => p.unit === "kg" ? 0.5 : 1;
+const unitName = p => p.unit === "szt" ? "szt." : p.unit;
+function qtyLabel(p, q) {
+  if (p.unit === "kg") return num(q) + " kg";
+  if (p.unit === "pęczek") {
+    const m = q % 10, c = q % 100;
+    return q + " " + (q === 1 ? "pęczek" : (m >= 2 && m <= 4 && !(c >= 12 && c <= 14)) ? "pęczki" : "pęczków");
+  }
+  return q + " szt.";
+}
+const lineTotal = (p, q) => Math.round(p.price * q * 100) / 100;
+
+function tile(p) {
+  return `
+    <article class="tile">
+      <div class="ph" style="background:${p.bg}"><span>${p.emoji}</span></div>
+      <div class="body">
+        <h3>${p.name}</h3>
+        <div class="price"><b>${pln(p.price)}</b> / ${unitName(p)}</div>
+        <div class="qty">
+          <button type="button" data-id="${p.id}" data-d="-1" aria-label="Zmniejsz ilość: ${p.name}" disabled>−</button>
+          <span id="q-${p.id}" aria-live="polite">${qtyLabel(p, 0)}</span>
+          <button type="button" data-id="${p.id}" data-d="1" aria-label="Zwiększ ilość: ${p.name}">+</button>
+        </div>
+      </div>
+    </article>`;
+}
+function renderProducts() {
+  $("products").innerHTML = CATEGORIES.map(c =>
+    `<h3 class="cat">${c.title}</h3><div class="grid">${c.items.map(tile).join("")}</div>`).join("");
+}
+
+$("products").addEventListener("click", e => {
+  const b = e.target.closest("button[data-id]");
+  if (!b) return;
+  const p = PRODUCTS.find(x => x.id === b.dataset.id);
+  const q = Math.max(0, (cart[p.id] || 0) + step(p) * Number(b.dataset.d));
+  if (q) cart[p.id] = q; else delete cart[p.id];
+  const span = $("q-" + p.id);
+  span.style.transform = "scale(1.3)";
+  setTimeout(() => span.style.transform = "scale(1)", 300);
+  span.textContent = qtyLabel(p, q);
+  b.parentElement.querySelector('[data-d="-1"]').disabled = q === 0;
+  update();
+});
+
+const outside = () => distance !== null && distance > CONFIG.maxDistanceKm;
+
+function deliveryCost(goodsTotal) {
+  if (outside()) return null;
+  if (distance === null || isNaN(distance)) return null;
+  if (distance <= CONFIG.freeRadiusKm || goodsTotal >= CONFIG.freeDeliveryThreshold) return 0;
+  const km = Math.ceil((CONFIG.roundTrip ? distance * 2 : distance) - 1e-9);
+  return Math.round(km * CONFIG.ratePerKm * 100) / 100;
+}
+
+function totals() {
+  let goods = 0, weight = 0, pieces = 0;
+  const items = PRODUCTS.filter(p => cart[p.id]).map(p => {
+    const q = cart[p.id], sum = lineTotal(p, q);
+    goods += sum;
+    if (p.unit === "kg") weight += q; else pieces += q;
+    return { p, q, sum };
+  });
+  return { items, goods, weight, pieces, deliv: deliveryCost(goods) };
+}
+
+function weightText(t) {
+  const parts = [];
+  if (t.weight) parts.push(num(t.weight) + " kg");
+  if (t.pieces) parts.push(t.pieces + " szt./pęczków");
+  return parts.length ? parts.join(" + ") : "0 kg";
+}
+
+function update() {
+  const t = totals();
+  $("cartLines").innerHTML = t.items.length
+    ? t.items.map(i => `<div class="line"><div>${i.p.name}<small>${qtyLabel(i.p, i.q)} × ${pln(i.p.price)}</small></div><b>${pln(i.sum)}</b></div>`).join("")
+    : `<p class="empty">Koszyk jest pusty. Dodaj produkty przyciskiem +.</p>`;
+  $("sumWeight").textContent = weightText(t);
+  $("sumGoods").textContent = pln(t.goods);
+  $("sumDeliv").textContent = t.deliv === null ? "–" : t.deliv === 0 ? "0,00 zł (gratis)" : pln(t.deliv);
+  const total = t.goods + (t.deliv || 0);
+  $("sumTotal").textContent = pln(total);
+  $("barTotal").textContent = pln(total);
+
+  const info = $("delivInfo");
+  info.classList.remove("err");
+  if (calcStatus) info.textContent = calcStatus;
+  else if (outside()) {
+    info.textContent = "Dowozimy tylko na terenie Łodzi. Ten adres jest poza naszym obszarem dostawy.";
+    info.classList.add("err");
+  } else if (t.deliv === null) {
+    const unknown = $("address").value.trim().length >= 4 && auto.d === null;
+    info.textContent = unknown ? "Szukamy adresu na terenie Łodzi…" : "Wpisz ulicę, aby poznać koszt dostawy.";
+  } else {
+    let reason = "";
+    if (t.goods >= CONFIG.freeDeliveryThreshold) {
+      reason = "Dostawa gratis (zamówienie powyżej 70 zł).";
+    } else if (distance <= CONFIG.freeRadiusKm) {
+      reason = "Dostawa gratis (do 100 m).";
+    } else {
+      const distStr = `Odległość: ${fmtDist(distance)} (${SRC[source]}). `;
+      reason = distStr + `Dostawa: ${pln(t.deliv)} (${pln(CONFIG.ratePerKm)} za rozpoczęty km${CONFIG.roundTrip ? ", w obie strony" : ""}).`;
+    }
+    info.textContent = reason;
+  }
+}
+
+async function geocode(q) {
+  const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), 6000);
+  try {
+    const url = "https://nominatim.openstreetmap.org/search?format=json&limit=1&addressdetails=1&q=" + encodeURIComponent(q);
+    const res = await (await fetch(url, { headers: { "Accept-Language": "pl" }, signal: ctl.signal })).json();
+    if (!res.length) throw new Error("brak");
+    const a = res[0].address || {};
+    return { lat: +res[0].lat, lng: +res[0].lon, city: a.city || a.town || a.village || a.municipality || "" };
+  } finally { clearTimeout(timer); }
+}
+let shop = CONFIG.shopCoords;
+async function getShop() {
+  if (shop) return shop;
+  try { shop = await geocode(CONFIG.shopAddress); }
+  catch (_) { shop = await geocode(CONFIG.shopAddress.replace(/(\d+)[A-Za-z]\b/, "$1")); }
+  return shop;
+}
+
+const KNOWN_STREETS = [
+  { key: "stefanowsk", km: 0.3 }, { key: "politechnik", km: 0.45 }, { key: "wolczansk", km: 0.6 },
+  { key: "zeromsk", km: 0.7 },    { key: "radwansk", km: 0.9 },     { key: "poles", km: 2.5 },
+  { key: "retkin", km: 4.5 }
+];
+const METERS_PER_HOUSE_NUMBER = 12;
+function estimateLocal(addr) {
+  const t = addr.toLowerCase().replace(/ł/g, "l").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const no = (t.match(/\d+/) || [])[0];
+  if (t.includes("wroblewsk")) return no ? Math.abs(+no - 21) * METERS_PER_HOUSE_NUMBER / 1000 : null;
+  const hit = KNOWN_STREETS.find(s => t.includes(s.key));
+  return hit ? hit.km : null;
+}
+
+let calcSeq = 0, lastAddr = "", calcStatus = "", source = null, timer = null, auto = { d: null, src: null };
+
+function resolve() {
+  distance = auto.d; source = auto.src;
+  update();
+}
+async function calcDistance() {
+  const addr = $("address").value.trim();
+  if (addr.length < 4 || addr === lastAddr) return;
+  lastAddr = addr; const seq = ++calcSeq;
+  calcStatus = "Liczę odległość…"; update();
+  let d = null, src = null;
+  try {
+    const g = await geocode(addr + ", Łódź, Polska");
+    d = g.city && g.city !== "Łódź" ? 999 : haversine(await getShop(), g);
+    src = "map";
+  } catch (_) {}
+  if (d === null) { const e = estimateLocal(addr); if (e !== null) { d = e; src = "estimate"; } }
+  if (seq !== calcSeq) return;
+  calcStatus = ""; auto = { d: d === null ? null : Math.round(d * 1000) / 1000, src };
+  resolve();
+}
+$("address").addEventListener("input", () => {
+  clearTimeout(timer); lastAddr = ""; calcSeq++; auto = { d: null, src: null }; calcStatus = "";
+  resolve();
+  timer = setTimeout(calcDistance, 800);
+});
+$("address").addEventListener("blur", () => { clearTimeout(timer); calcDistance(); });
+
+const fmtDist = d => d < 1 ? Math.round(d * 1000) + " m" : num(Math.round(d * 10) / 10) + " km";
+const SRC = { map: "z mapy, w linii prostej", estimate: "szacunek na podstawie ulicy" };
+
+function haversine(a, b) {
+  const r = Math.PI / 180, dLat = (b.lat - a.lat) * r, dLng = (b.lng - a.lng) * r;
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(dLng / 2) ** 2;
+  return 12742 * Math.asin(Math.sqrt(h));
+}
+
+$("orderBtn").addEventListener("click", async () => {
+  const t = totals(), msg = $("formMsg");
+  const name = $("name").value.trim(), phone = $("phone").value.trim(), addr = $("address").value.trim();
+  if (!t.items.length) return (msg.textContent = "Dodaj do koszyka przynajmniej jeden produkt.");
+  if (!name || !phone || !addr) return (msg.textContent = "Uzupełnij imię, telefon i adres dostawy.");
+  if (outside()) return (msg.textContent = "Dowozimy tylko na terenie Łodzi. Zmień adres dostawy.");
+  if (t.deliv === null) return (msg.textContent = "Wpisz poprawnie ulicę w Łodzi, żeby policzyć koszt.");
+  
+  msg.textContent = "";
+  const btn = $("orderBtn");
+  btn.disabled = true;
+  btn.textContent = "Wysyłanie zamówienia...";
+
+  const lines = t.items.map(i => `• ${i.p.name}: ${qtyLabel(i.p, i.q)} × ${pln(i.p.price)} = ${pln(i.sum)}`);
+  const text = [
+    "🛒 *Nowe zamówienie – Świeża Wieża*", "",
+    "*Zakupy:*", ...lines, "",
+    `Razem: ${weightText(t)}`,
+    `Produkty: ${pln(t.goods)}`,
+    `Dostawa (${t.deliv === 0 ? "Gratis" : `${{ map: "ok. ", estimate: "ok. " }[source]}${fmtDist(distance)}`}): ${t.deliv === 0 ? "0,00 zł (gratis)" : pln(t.deliv)}`,
+    `*Do zapłaty: ${pln(t.goods + t.deliv)}*`, "",
+    "*Dane klienta:*", `Imię: ${name}`, `Telefon: ${phone}`, `Adres: ${addr}`
+  ].join("\n");
+
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${CONFIG.telegramToken}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: CONFIG.telegramChatId,
+        text: text,
+        parse_mode: "Markdown"
+      })
+    });
+    
+    if (!res.ok) throw new Error("Błąd sieci");
+
+    alert("Zamówienie zostało złożone pomyślnie! Dziękujemy.");
+    location.reload();
+  } catch (err) {
+    msg.textContent = "Wystąpił błąd podczas wysyłania. Spróbuj ponownie.";
+    btn.disabled = false;
+    btn.textContent = "Zamów teraz";
+  }
+});
+
+/* OPCJONALNIE: Pobieranie aktualizacji katalogu z bota Telegrama (np. plik JSON trzymany na GitHubie/serwerze wysyłany przez bota) */
+async function fetchCatalogUpdates() {
+  try {
+    // Możesz spiąć to z plikiem catalog.json na swoim serwerze, który aktualizujesz botem
+    const res = await fetch('catalog.json?' + new Date().getTime());
+    if(res.ok) {
+      const data = await res.json();
+      if(data && data.categories) {
+        CATEGORIES = data.categories;
+        PRODUCTS = CATEGORIES.flatMap(c => c.items);
+        renderProducts();
+        update();
+      }
+    }
+  } catch(e) {}
+}
+
+renderProducts();
+update();
+fetchCatalogUpdates(); // Sprawdza aktualizacje asynchronicznie
+</script>
+</body>
+</html>
