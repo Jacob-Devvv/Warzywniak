@@ -16,93 +16,82 @@
 }
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth}
-body{font-family:Figtree,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding-bottom:84px}
+body{font-family:Figtree,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding-bottom:100px; -webkit-text-size-adjust:100%}
 h1,h2,h3{font-family:"Bricolage Grotesque",Figtree,sans-serif;line-height:1.1}
 button,input{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--tomato);outline-offset:2px}
-.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
 
-/* Hotbar promocyjny z animacją wejścia */
-.hotbar{background:var(--leaf-dark);color:#fff;text-align:center;padding:12px 15px;font-weight:700;font-size:0.95rem;letter-spacing:0.02em;animation:slideDown .6s ease-out}
+/* Hotbar promocyjny */
+.hotbar{background:var(--leaf-dark);color:#fff;text-align:center;padding:10px 12px;font-weight:700;font-size:0.85rem;letter-spacing:0.02em;animation:slideDown .6s ease-out}
 
-header{padding:18px 0}
-.brand{display:flex;align-items:center;gap:10px;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.35rem}
-.brand i{width:34px;height:34px;border-radius:10px;background:var(--leaf);display:grid;place-items:center;font-style:normal;font-size:1.1rem;transition:transform .3s ease}
-.brand:hover i{transform:rotate(12deg) scale(1.1)}
+header{padding:14px 0}
+.brand{display:flex;align-items:center;gap:10px;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.25rem}
+.brand i{width:32px;height:32px;border-radius:10px;background:var(--leaf);display:grid;place-items:center;font-style:normal;font-size:1rem;transition:transform .3s ease}
 
-.hero{padding:28px 0 36px;animation:fadeIn .8s ease-out}
-.hero h1{font-size:clamp(2.4rem,7vw,4.6rem);font-weight:800;letter-spacing:-.03em;max-width:12ch;color:var(--leaf-dark)}
-.hero p{margin-top:16px;max-width:46ch;color:var(--muted);font-size:1.1rem}
-.hero .pill{display:inline-block;margin-top:22px;background:var(--lime);color:var(--leaf-dark);font-weight:700;padding:10px 16px;border-radius:99px;transition:transform .3s ease}
-.hero .pill:hover{transform:translateY(-2px)}
+.hero{padding:20px 0 28px;animation:fadeIn .8s ease-out}
+.hero h1{font-size:clamp(2.1rem, 6vw, 4.6rem);font-weight:800;letter-spacing:-.03em;max-width:12ch;color:var(--leaf-dark)}
+.hero p{margin-top:12px;max-width:46ch;color:var(--muted);font-size:1rem}
+.hero .pill{display:inline-block;margin-top:16px;background:var(--lime);color:var(--leaf-dark);font-weight:700;padding:8px 14px;border-radius:99px;font-size:0.9rem}
 
-.layout{display:grid;gap:28px;grid-template-columns:1fr;align-items:start}
+.layout{display:grid;gap:24px;grid-template-columns:1fr;align-items:start}
 @media(min-width:960px){.layout{grid-template-columns:1fr 400px}.side{position:sticky;top:16px}}
-h2{font-size:1.7rem;margin-bottom:18px;letter-spacing:-.01em}
+h2{font-size:1.5rem;margin-bottom:14px;letter-spacing:-.01em}
 
-.cat{font-size:1.25rem;margin:30px 0 14px;color:var(--leaf-dark)}
+.cat{font-size:1.15rem;margin:24px 0 12px;color:var(--leaf-dark)}
 .cat:first-of-type{margin-top:0}
-.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+@media(min-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;}}
 
-/* Płynne animacje kafelków */
-.tile{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .3s cubic-bezier(.2,0,0,1), box-shadow .3s cubic-bezier(.2,0,0,1);animation:fadeInUp .6s ease-out both}
-.tile:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(22,48,31,0.08)}
+/* Kafelki produktów zoptymalizowane pod dotyk */
+.tile{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(0,0,0,0.02)}
+.ph{position:relative;aspect-ratio:16/9;display:grid;place-items:center;font-size:2.8rem}
+.tile .body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px;flex:1}
+.tile h3{font-size:1rem}
+.price{color:var(--muted);font-size:0.9rem}
+.price b{color:var(--ink);font-size:1.05rem}
 
-.ph{position:relative;aspect-ratio:16/9;display:grid;place-items:center;font-size:3.2rem;transition:transform .4s ease}
-.tile:hover .ph span{transform:scale(1.15) rotate(5deg)}
-.tile .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:12px;flex:1}
-.tile h3{font-size:1.1rem}
-.price{color:var(--muted);font-size:.95rem}
-.price b{color:var(--ink);font-size:1.15rem}
-
-.qty{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--bg);border-radius:99px;padding:4px}
-.qty button{width:40px;height:40px;border:0;border-radius:50%;background:var(--leaf);color:#fff;font-size:1.4rem;line-height:1;cursor:pointer;transition:transform .2s ease, background .2s ease}
+.qty{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:6px;background:var(--bg);border-radius:99px;padding:3px}
+.qty button{width:38px;height:38px;border:0;border-radius:50%;background:var(--leaf);color:#fff;font-size:1.3rem;line-height:1;cursor:pointer;flex-shrink:0}
 .qty button:disabled{background:#c8d4c0;cursor:default}
-.qty button:not(:disabled):hover{transform:scale(1.08);background:var(--leaf-dark)}
-.qty button:not(:disabled):active{transform:scale(.92)}
-.qty span{font-weight:700;min-width:70px;text-align:center;transition:transform .2s ease}
+.qty span{font-weight:700;min-width:50px;text-align:center;font-size:0.95rem}
 
-/* Panel koszyka z animacją aktualizacji */
-.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;margin-bottom:16px;box-shadow:0 4px 20px rgba(0,0,0,0.02)}
-.panel h2{font-size:1.35rem;margin-bottom:14px}
-.empty{color:var(--muted)}
-.line{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line);animation:fadeIn .3s ease}
+/* Panel koszyka i formularza */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:16px;box-shadow:0 4px 20px rgba(0,0,0,0.02)}
+.panel h2{font-size:1.25rem;margin-bottom:12px}
+.empty{color:var(--muted);font-size:0.95rem}
+.line{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:0.95rem}
 .line small{display:block;color:var(--muted)}
 .line b{white-space:nowrap}
-.sum{display:flex;justify-content:space-between;padding:6px 0;color:var(--muted)}
-.sum.total{color:var(--ink);font-weight:800;font-size:1.3rem;border-top:2px solid var(--ink);margin-top:8px;padding-top:12px}
+.sum{display:flex;justify-content:space-between;padding:6px 0;color:var(--muted);font-size:0.95rem}
+.sum.total{color:var(--ink);font-weight:800;font-size:1.2rem;border-top:2px solid var(--ink);margin-top:8px;padding-top:10px}
 
-label{display:block;font-weight:600;font-size:.92rem;margin:12px 0 6px}
-input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;transition:border-color .2s ease, box-shadow .2s ease}
+label{display:block;font-weight:600;font-size:0.9rem;margin:10px 0 4px}
+input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;font-size:16px; /* Zapobiega zoomowaniu na iOS */}
 input:focus{border-color:var(--leaf);outline:none;box-shadow:0 0 0 3px var(--lime)}
 [hidden]{display:none!important}
-.area{font-weight:700;color:var(--leaf-dark);background:var(--lime);padding:10px 14px;border-radius:12px;margin-bottom:14px}
-.hint{font-size:.85rem;color:var(--muted);margin-top:6px}
-.deliv{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--lime);color:var(--leaf-dark);font-weight:600;font-size:.95rem;transition:background .3s ease}
+.area{font-weight:700;color:var(--leaf-dark);background:var(--lime);padding:10px 12px;border-radius:12px;margin-bottom:12px;font-size:0.9rem}
+.hint{font-size:0.82rem;color:var(--muted);margin-top:6px}
+.deliv{margin-top:10px;padding:12px;border-radius:12px;background:var(--lime);color:var(--leaf-dark);font-weight:600;font-size:0.9rem;transition:background .3s ease}
 .deliv.err{background:#fde3dc;color:#8a2b12}
 
-.order{width:100%;margin-top:16px;border:0;border-radius:14px;background:var(--leaf);color:#fff;font-weight:700;font-size:1.05rem;padding:16px;cursor:pointer;transition:transform .2s ease, filter .2s ease, box-shadow .2s ease}
-.order:hover{filter:brightness(1.05);transform:translateY(-2px);box-shadow:0 6px 20px rgba(31,107,63,0.3)}
-.order:active{transform:translateY(0)}
-.order:disabled{background:#c8d4c0;cursor:default;transform:none;box-shadow:none}
-.msg{margin-top:10px;font-size:.92rem;color:#8a2b12;min-height:1.2em}
+.order{width:100%;margin-top:14px;border:0;border-radius:14px;background:var(--leaf);color:#fff;font-weight:700;font-size:1rem;padding:15px;cursor:pointer;box-shadow:0 4px 15px rgba(31,107,63,0.25)}
+.order:disabled{background:#c8d4c0;box-shadow:none;cursor:default}
+.msg{margin-top:8px;font-size:0.9rem;color:#8a2b12;min-height:1.2em}
 
-.bar{position:fixed;left:0;right:0;bottom:0;background:var(--leaf-dark);color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;z-index:10;box-shadow:0 -4px 20px rgba(0,0,0,0.15)}
-.bar a{background:#fff;color:var(--leaf-dark);font-weight:700;padding:10px 18px;border-radius:99px;text-decoration:none;transition:transform .2s ease}
-.bar a:hover{transform:scale(1.05)}
+/* Dolny pasek mobilny */
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--leaf-dark);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,0.2)}
+.bar a{background:#fff;color:var(--leaf-dark);font-weight:700;padding:10px 16px;border-radius:99px;text-decoration:none;font-size:0.95rem}
 @media(min-width:960px){.bar{display:none}body{padding-bottom:0}}
-footer{margin-top:40px;padding:24px 0;color:var(--muted);font-size:.9rem}
+footer{margin-top:30px;padding:20px 0;color:var(--muted);font-size:0.85rem;text-align:center}
 
-/* Keyframes animacji */
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 
-<div class="hotbar">🚀 Super okazja: Dostawa za 0 zł przy zamówieniach powyżej 70 zł! (Do 100 m zawsze gratis)</div>
+<div class="hotbar">🚀 Super okazja: Dostawa za 0 zł przy zamówieniach powyżej 70 zł!</div>
 <header><div class="wrap"><div class="brand"><i>🥬</i>Świeża Wieża</div></div></header>
 
 <section class="hero"><div class="wrap">
@@ -134,8 +123,42 @@ footer{margin-top:40px;padding:24px 0;color:var(--muted);font-size:.9rem}
       <label for="phone">Numer telefonu</label>
       <input id="phone" type="tel" autocomplete="tel" placeholder="np. 600 100 200">
       <p class="area">Dowozimy wyłącznie na terenie Łodzi.</p>
-      <label for="address">Wpisz swoją ulicę w Łodzi</label>
-      <input id="address" autocomplete="street-address" placeholder="np. Stefanowskiego 15">
+      
+      <!-- Wybór typu nieruchomości -->
+      <label>Rodzaj budynku</label>
+      <div style="display: flex; gap: 15px; margin-bottom: 10px;">
+          <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal; margin: 0; font-size: 0.95rem;">
+              <input type="radio" name="addressType" value="dom" checked onchange="toggleAddressFields()" style="width: auto; margin-right: 6px;"> Dom
+          </label>
+          <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal; margin: 0; font-size: 0.95rem;">
+              <input type="radio" name="addressType" value="blok" onchange="toggleAddressFields()" style="width: auto; margin-right: 6px;"> Blok / Mieszkanie
+          </label>
+      </div>
+
+      <!-- Ulica i numer budynku/bloku -->
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 8px;">
+          <div>
+              <label for="street">Ulica *</label>
+              <input id="street" autocomplete="street-address" placeholder="np. Wróblewskiego">
+          </div>
+          <div>
+              <label for="buildingNumber" id="buildingLabel">Nr domu *</label>
+              <input id="buildingNumber" placeholder="np. 21F">
+          </div>
+      </div>
+
+      <!-- Dodatkowe pola dla bloku -->
+      <div id="blockFields" hidden style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px;">
+          <div>
+              <label for="floor">Piętro</label>
+              <input id="floor" placeholder="np. 2">
+          </div>
+          <div>
+              <label for="apartment">Nr mieszkania *</label>
+              <input id="apartment" placeholder="np. 14">
+          </div>
+      </div>
+
       <p class="hint">Podaj ulicę i numer. Koszt dostawy policzymy automatycznie.</p>
       <div class="deliv" id="delivInfo">Wpisz ulicę, aby poznać koszt dostawy.</div>
 
@@ -147,7 +170,7 @@ footer{margin-top:40px;padding:24px 0;color:var(--muted);font-size:.9rem}
 
 <footer><div class="wrap">© Świeża Wieża · ul. Wróblewskiego 21F, Łódź</div></footer>
 
-<div class="bar"><div><small>Do zapłaty</small><br><b id="barTotal">0,00 zł</b></div><a href="#cart">Pokaż koszyk</a></div>
+<div class="bar"><div><small style="font-size: 0.75rem;">Do zapłaty</small><br><b id="barTotal" style="font-size: 1.1rem;">0,00 zł</b></div><a href="#cart">Idź do koszyka</a></div>
 
 <script>
 const CONFIG = {
@@ -179,25 +202,32 @@ const CATEGORIES = [
     { id:"paolo",      name:"Paolo",           price:5.00, unit:"szt",    emoji:"🥬", bg:"#e8efd6" }
   ]},
   { title: "Ważone (cena za 1 kg)", items: [
-    { id:"buraki",     name:"Buraki",                 price:4.00,  unit:"kg", emoji:"🟣", bg:"#ecd3e4" },
-    { id:"ogorki-t",   name:"Ogórki tunelowe",        price:14.00, unit:"kg", emoji:"🥒", bg:"#dcefc8" },
-    { id:"ogorek-sz",  name:"Ogórek szklarniowy",     price:10.00, unit:"kg", emoji:"🥒", bg:"#d3ecc0" },
-    { id:"papryka",    name:"Papryka",                price:10.00, unit:"kg", emoji:"🫑", bg:"#fde0c2" },
-    { id:"jablka",     name:"Wszystkie odmiany jabłek",price:5.90,  unit:"kg", emoji:"🍎", bg:"#f9d6d6" },
-    { id:"cukinia",    name:"Cukinia",                price:7.00,  unit:"kg", emoji:"🥒", bg:"#dfeab8" },
-    { id:"cebula",     name:"Cebula",                 price:2.50,  unit:"kg", emoji:"🧅", bg:"#f0e2cf" },
-    { id:"ziemniaki",  name:"Ziemniaki",              price:2.50,  unit:"kg", emoji:"🥔", bg:"#f1e4c8" },
-    { id:"pom-kokt",   name:"Pomidor koktajlowy",     price:14.90, unit:"kg", emoji:"🍅", bg:"#fbd9d0" },
-    { id:"pom-mal",    name:"Pomidor malinowy",       price:18.00, unit:"kg", emoji:"🍅", bg:"#f8cdd0" },
-    { id:"pom-sal",    name:"Pomidor sałatkowy",      price:10.00, unit:"kg", emoji:"🍅", bg:"#fbd9d0" },
-    { id:"kiwi",       name:"Kiwi",                   price:18.00, unit:"kg", emoji:"🥝", bg:"#dcebb4" },
-    { id:"pomarancze", name:"Pomarańcze",             price:5.00,  unit:"kg", emoji:"🍊", bg:"#fde0b8" },
-    { id:"pom-zielone",name:"Pomarańcze zielone",     price:13.00, unit:"kg", emoji:"🍊", bg:"#e2efc0" },
-    { id:"mandarynki", name:"Mandarynki",             price:5.00,  unit:"kg", emoji:"🍊", bg:"#fdd9b0" },
-    { id:"sliwki",     name:"Śliwki węgierki",        price:8.50,  unit:"kg", emoji:"🍇", bg:"#e0d3ec" },
-    { id:"banany",     name:"Banany",                 price:6.90,  unit:"kg", emoji:"🍌", bg:"#fbf0b8" },
-    { id:"cytryny",    name:"Cytryny",                price:10.00, unit:"kg", emoji:"🍋", bg:"#fbf3b0" },
-    { id:"winogrona",  name:"Winogrona",              price:10.00, unit:"kg", emoji:"🍇", bg:"#e6e0c0" }
+    { id:"buraki",         name:"Buraki",          price:4.00,  unit:"kg", emoji:"🫜", bg:"#ecd3e4" },
+    { id:"jablko-lobo",    name:"Jabłko Lobo",     price:5.90,  unit:"kg", emoji:"🍎", bg:"#f9d6d6" },
+    { id:"jablko-ligol",   name:"Jabłko Ligol",    price:5.90,  unit:"kg", emoji:"🍎", bg:"#f9d6d6" },
+    { id:"jablko-prince",  name:"Jabłko Prince",   price:5.90,  unit:"kg", emoji:"🍎", bg:"#f9d6d6" },
+    { id:"jablko-szkolne", name:"Jabłko szkolne",  price:5.90,  unit:"kg", emoji:"🍎", bg:"#f9d6d6" },
+    { id:"jablko-golden",  name:"Jabłko Golden",   price:5.90,  unit:"kg", emoji:"🍎", bg:"#f9d6d6" },
+    { id:"jablko-mutsu",   name:"Jabłko Mutsu",    price:5.90,  unit:"kg", emoji:"🍎", bg:"#f9d6d6" },
+    { id:"jablko-renata",  name:"Szara Reneta",    price:5.90,  unit:"kg", emoji:"🍎", bg:"#f9d6d6" },
+    { id:"jablko-champion","Jabłko Szampion",  price:5.90,  unit:"kg", emoji:"🍎", bg:"#f9d6d6" },
+    { id:"ogorki-t",       name:"Ogórki tunelowe", price:14.00, unit:"kg", emoji:"🥒", bg:"#dcefc8" },
+    { id:"ogorek-sz",      name:"Ogórek szklarniowy",price:10.00,unit:"kg", emoji:"🥒", bg:"#d3ecc0" },
+    { id:"papryka",        name:"Papryka",         price:10.00, unit:"kg", emoji:"🫑", bg:"#fde0c2" },
+    { id:"cukinia",        name:"Cukinia",         price:7.00,  unit:"kg", emoji:"🥒", bg:"#dfeab8" },
+    { id:"cebula",         name:"Cebula",          price:2.50,  unit:"kg", emoji:"🧅", bg:"#f0e2cf" },
+    { id:"ziemniaki",      name:"Ziemniaki",       price:2.50,  unit:"kg", emoji:"🥔", bg:"#f1e4c8" },
+    { id:"pom-kokt",       name:"Pomidor koktajlowy",price:14.90,unit:"kg", emoji:"🍅", bg:"#fbd9d0" },
+    { id:"pom-mal",        name:"Pomidor malinowy",price:18.00, unit:"kg", emoji:"🍅", bg:"#f8cdd0" },
+    { id:"pom-sal",        name:"Pomidor sałatkowy",price:10.00,unit:"kg", emoji:"🍅", bg:"#fbd9d0" },
+    { id:"kiwi",           name:"Kiwi",            price:18.00, unit:"kg", emoji:"🥝", bg:"#dcebb4" },
+    { id:"pomarancze",     name:"Pomarańcze",      price:5.00,  unit:"kg", emoji:"🍊", bg:"#fde0b8" },
+    { id:"pom-zielone",    name:"Pomarańcze zielone",price:13.00,unit:"kg", emoji:"🍊", bg:"#e2efc0" },
+    { id:"mandarynki",     name:"Mandarynki",      price:5.00,  unit:"kg", emoji:"🍊", bg:"#fdd9b0" },
+    { id:"sliwki",         name:"Śliwki węgierki", price:8.50,  unit:"kg", emoji:"🍇", bg:"#e0d3ec" },
+    { id:"banany",         name:"Banany",          price:6.90,  unit:"kg", emoji:"🍌", bg:"#fbf0b8" },
+    { id:"cytryny",        name:"Cytryny",         price:10.00, unit:"kg", emoji:"🍋", bg:"#fbf3b0" },
+    { id:"winogrona",      name:"Winogrona",       price:10.00, unit:"kg", emoji:"🍇", bg:"#e6e0c0" }
   ]}
 ];
 const PRODUCTS = CATEGORIES.flatMap(c => c.items);
@@ -221,7 +251,7 @@ function qtyLabel(p, q) {
 const lineTotal = (p, q) => Math.round(p.price * q * 100) / 100;
 
 function tile(p, index) {
-  const delay = (index * 0.03).toFixed(2);
+  const delay = (index * 0.02).toFixed(2);
   return `
     <article class="tile" style="animation-delay: ${delay}s">
       <div class="ph" style="background:${p.bg}"><span>${p.emoji}</span></div>
@@ -229,9 +259,9 @@ function tile(p, index) {
         <h3>${p.name}</h3>
         <div class="price"><b>${pln(p.price)}</b> / ${unitName(p)}</div>
         <div class="qty">
-          <button type="button" data-id="${p.id}" data-d="-1" aria-label="Zmniejsz ilość: ${p.name}" disabled>−</button>
+          <button type="button" data-id="${p.id}" data-d="-1" aria-label="Zmniejsz" disabled>−</button>
           <span id="q-${p.id}" aria-live="polite">${qtyLabel(p, 0)}</span>
-          <button type="button" data-id="${p.id}" data-d="1" aria-label="Zwiększ ilość: ${p.name}">+</button>
+          <button type="button" data-id="${p.id}" data-d="1" aria-label="Zwiększ">+</button>
         </div>
       </div>
     </article>`;
@@ -249,8 +279,6 @@ $("products").addEventListener("click", e => {
   const q = Math.max(0, (cart[p.id] || 0) + step(p) * Number(b.dataset.d));
   if (q) cart[p.id] = q; else delete cart[p.id];
   const span = $("q-" + p.id);
-  span.style.transform = "scale(1.2)";
-  setTimeout(() => span.style.transform = "scale(1)", 200);
   span.textContent = qtyLabel(p, q);
   b.parentElement.querySelector('[data-d="-1"]').disabled = q === 0;
   update();
@@ -300,10 +328,10 @@ function update() {
   info.classList.remove("err");
   if (calcStatus) info.textContent = calcStatus;
   else if (outside()) {
-    info.textContent = "Dowozimy tylko na terenie Łodzi. Ten adres jest poza naszym obszarem dostawy.";
+    info.textContent = "Dowozimy tylko na terenie Łodzi. Ten adres jest poza naszym obszarem.";
     info.classList.add("err");
   } else if (t.deliv === null) {
-    const unknown = $("address").value.trim().length >= 4 && auto.d === null;
+    const unknown = $("street").value.trim().length >= 4 && auto.d === null;
     info.textContent = unknown ? "Szukamy adresu na terenie Łodzi…" : "Wpisz ulicę, aby poznać koszt dostawy.";
   } else {
     let reason = "";
@@ -313,10 +341,29 @@ function update() {
       reason = "Dostawa gratis (do 100 m).";
     } else {
       const distStr = `Odległość: ${fmtDist(distance)} (${SRC[source]}). `;
-      reason = distStr + `Dostawa: ${pln(t.deliv)} (${pln(CONFIG.ratePerKm)} za rozpoczęty km${CONFIG.roundTrip ? ", w obie strony" : ""}).`;
+      reason = distStr + `Dostawa: ${pln(t.deliv)} (${pln(CONFIG.ratePerKm)} za rozpoczęty km).`;
     }
     info.textContent = reason;
   }
+}
+
+function toggleAddressFields() {
+    const addressType = document.querySelector('input[name="addressType"]:checked').value;
+    const blockFields = document.getElementById('blockFields');
+    const aptInput = document.getElementById('apartment');
+    const buildingLabel = document.getElementById('buildingLabel');
+
+    if (addressType === 'blok') {
+        blockFields.hidden = false;
+        aptInput.required = true;
+        buildingLabel.textContent = 'Nr bloku *';
+    } else {
+        blockFields.hidden = true;
+        aptInput.required = false;
+        aptInput.value = '';
+        document.getElementById('floor').value = '';
+        buildingLabel.textContent = 'Nr domu *';
+    }
 }
 
 async function geocode(q) {
@@ -358,7 +405,10 @@ function resolve() {
   update();
 }
 async function calcDistance() {
-  const addr = $("address").value.trim();
+  const streetVal = $("street").value.trim();
+  const bldgVal = $("buildingNumber").value.trim();
+  const addr = `${streetVal} ${bldgVal}`.trim();
+  
   if (addr.length < 4 || addr === lastAddr) return;
   lastAddr = addr; const seq = ++calcSeq;
   calcStatus = "Liczę odległość…"; update();
@@ -373,15 +423,19 @@ async function calcDistance() {
   calcStatus = ""; auto = { d: d === null ? null : Math.round(d * 1000) / 1000, src };
   resolve();
 }
-$("address").addEventListener("input", () => {
+$("street").addEventListener("input", () => {
   clearTimeout(timer); lastAddr = ""; calcSeq++; auto = { d: null, src: null }; calcStatus = "";
   resolve();
   timer = setTimeout(calcDistance, 800);
 });
-$("address").addEventListener("blur", () => { clearTimeout(timer); calcDistance(); });
+$("buildingNumber").addEventListener("input", () => {
+  clearTimeout(timer); lastAddr = ""; calcSeq++; auto = { d: null, src: null }; calcStatus = "";
+  resolve();
+  timer = setTimeout(calcDistance, 800);
+});
 
 const fmtDist = d => d < 1 ? Math.round(d * 1000) + " m" : num(Math.round(d * 10) / 10) + " km";
-const SRC = { map: "z mapy, w linii prostej", estimate: "szacunek na podstawie ulicy" };
+const SRC = { map: "z mapy", estimate: "szacunek" };
 
 function haversine(a, b) {
   const r = Math.PI / 180, dLat = (b.lat - a.lat) * r, dLng = (b.lng - a.lng) * r;
@@ -391,12 +445,29 @@ function haversine(a, b) {
 
 $("orderBtn").addEventListener("click", async () => {
   const t = totals(), msg = $("formMsg");
-  const name = $("name").value.trim(), phone = $("phone").value.trim(), addr = $("address").value.trim();
+  const name = $("name").value.trim();
+  const phone = $("phone").value.trim();
+  const street = $("street").value.trim();
+  const buildingNumber = $("buildingNumber").value.trim();
+  const addressType = document.querySelector('input[name="addressType"]:checked').value;
+  const floor = $("floor").value.trim();
+  const apartment = $("apartment").value.trim();
+
   if (!t.items.length) return (msg.textContent = "Dodaj do koszyka przynajmniej jeden produkt.");
-  if (!name || !phone || !addr) return (msg.textContent = "Uzupełnij imię, telefon i adres dostawy.");
-  if (outside()) return (msg.textContent = "Dowozimy tylko na terenie Łodzi. Zmień adres dostawy.");
-  if (t.deliv === null) return (msg.textContent = "Wpisz poprawnie ulicę w Łodzi, żeby policzyć koszt.");
+  if (!name || !phone || !street || !buildingNumber) return (msg.textContent = "Uzupełnij imię, telefon, ulicę i numer budynku.");
+  if (addressType === 'blok' && !apartment) return (msg.textContent = "Podaj numer mieszkania dla bloku.");
+  if (outside()) return (msg.textContent = "Dowozimy tylko na terenie Łodzi.");
+  if (t.deliv === null) return (msg.textContent = "Wpisz poprawnie ulicę w Łodzi.");
   
+  let fullAddress = `${street} ${buildingNumber}`;
+  if (addressType === 'blok') {
+      fullAddress += `, m. ${apartment}`;
+      if (floor) fullAddress += ` (piętro: ${floor})`;
+      fullAddress += ` [Blok]`;
+  } else {
+      fullAddress += ` [Dom]`;
+  }
+
   msg.textContent = "";
   const btn = $("orderBtn");
   btn.disabled = true;
@@ -408,20 +479,16 @@ $("orderBtn").addEventListener("click", async () => {
     "*Zakupy:*", ...lines, "",
     `Razem: ${weightText(t)}`,
     `Produkty: ${pln(t.goods)}`,
-    `Dostawa (${t.deliv === 0 ? "Gratis" : `${{ map: "ok. ", estimate: "ok. " }[source]}${fmtDist(distance)}`}): ${t.deliv === 0 ? "0,00 zł (gratis)" : pln(t.deliv)}`,
+    `Dostawa: ${t.deliv === 0 ? "0,00 zł (gratis)" : pln(t.deliv)}`,
     `*Do zapłaty: ${pln(t.goods + t.deliv)}*`, "",
-    "*Dane klienta:*", `Imię: ${name}`, `Telefon: ${phone}`, `Adres: ${addr}`
+    "*Dane klienta:*", `Imię: ${name}`, `Telefon: ${phone}`, `Adres: ${fullAddress}`
   ].join("\n");
 
   try {
     const res = await fetch(`https://api.telegram.org/bot${CONFIG.telegramToken}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: CONFIG.telegramChatId,
-        text: text,
-        parse_mode: "Markdown"
-      })
+      body: JSON.stringify({ chat_id: CONFIG.telegramChatId, text: text, parse_mode: "Markdown" })
     });
     
     if (!res.ok) throw new Error("Błąd sieci");
