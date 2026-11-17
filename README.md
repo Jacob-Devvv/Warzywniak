@@ -1,2 +1,0 @@
-# Warzywniak
-Poprostu Stronka 😊
