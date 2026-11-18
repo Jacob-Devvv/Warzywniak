@@ -18,7 +18,7 @@
 html{scroll-behavior:smooth}
 body{font-family:Figtree,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding-bottom:100px; -webkit-text-size-adjust:100%}
 h1,h2,h3{font-family:"Bricolage Grotesque",Figtree,sans-serif;line-height:1.1}
-button,input{font:inherit;color:inherit}
+button,input,select{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--tomato);outline-offset:2px}
 .wrap{max-width:1180px;margin:0 auto;padding:0 16px}
 
@@ -45,11 +45,14 @@ h2{font-size:1.5rem;margin-bottom:14px;letter-spacing:-.01em}
 
 /* Kafelki produktów */
 .tile{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(0,0,0,0.02)}
-.ph{position:relative;aspect-ratio:16/9;display:grid;place-items:center;font-size:2.8rem}
+.ph{position:relative;aspect-ratio:16/9;display:grid;place-items:center;font-size:2.8rem;background:#fff;}
+.ph img{width:100%;height:100%;object-fit:contain;padding:8px;}
 .tile .body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px;flex:1}
 .tile h3{font-size:1rem}
 .price{color:var(--muted);font-size:0.9rem}
 .price b{color:var(--ink);font-size:1.05rem}
+
+.variant-select{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font-size:0.85rem;margin-bottom:4px}
 
 .qty{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:6px;background:var(--bg);border-radius:99px;padding:3px}
 .qty button{width:38px;height:38px;border:0;border-radius:50%;background:var(--leaf);color:#fff;font-size:1.3rem;line-height:1;cursor:pointer;flex-shrink:0}
@@ -188,43 +191,71 @@ const CATEGORIES = [
     { id:"szczypiorek",name:"Szczypiorek",     price:3.00, unit:"pęczek", emoji:"🌱", bg:"#e2f1c4" },
     { id:"kapusta",    name:"Kapusta",         price:6.00, unit:"szt",    emoji:"🥬", bg:"#e4f0cf" },
     { id:"kalafior",   name:"Kalafior",        price:8.00, unit:"szt",    emoji:"🥦", bg:"#f3f0e2" },
-    { id:"brokul",     name:"Brokuł",          price:7.00, unit:"szt",    emoji:"🥦", bg:"#cfe8c0" },
+    { id:"brokol",     name:"Brokuł",          price:7.00, unit:"szt",    emoji:"🥦", bg:"#cfe8c0" },
     { id:"ananas",     name:"Ananas",          price:5.00, unit:"szt",    emoji:"🍍", bg:"#fbf0b8" },
     { id:"granat",     name:"Granat",          price:2.50, unit:"szt",    emoji:"🍎", bg:"#f6d0d6" },
     { id:"awokado",    name:"Awokado",         price:4.50, unit:"szt",    emoji:"🥑", bg:"#dfeab8" },
-    { id:"czosnek",    name:"Czosnek",         price:3.00, unit:"szt",    emoji:"🧄", bg:"#f3ecdc" },
-    { id:"paolo",      name:"Paolo",           price:5.00, unit:"szt",    emoji:"🥬", bg:"#e8efd6" }
+    { id:"czosnek",    name:"Czosnek",         price:3.00, unit:"szt",    emoji:"🧄", bg:"#f3ecdc" }
   ]},
   { title: "Ważone (cena za 1 kg)", items: [
     { id:"buraki",         name:"Buraki",          price:4.00,  unit:"kg", emoji:"🫜", bg:"#ecd3e4" },
-    { id:"jablko-lobo",    name:"Jabłko Lobo",     price:5.90,  unit:"kg", emoji:"🍎", bg:"#f9d6d6" },
-    { id:"jablko-ligol",   name:"Jabłko Ligol",    price:5.90,  unit:"kg", emoji:"🍎", bg:"#f9d6d6" },
-    { id:"jablko-prince",  name:"Jabłko Prince",   price:5.90,  unit:"kg", emoji:"🍎", bg:"#f9d6d6" },
-    { id:"jablko-szkolne", name:"Jabłko szkolne",  price:5.90,  unit:"kg", emoji:"🍎", bg:"#f9d6d6" },
-    { id:"jablko-golden",  name:"Jabłko Golden",   price:5.90,  unit:"kg", emoji:"🍎", bg:"#f9d6d6" },
-    { id:"jablko-mutsu",   name:"Jabłko Mutsu",    price:5.90,  unit:"kg", emoji:"🍎", bg:"#f9d6d6" },
-    { id:"jablko-renata",  name:"Szara Reneta",    price:5.90,  unit:"kg", emoji:"🍎", bg:"#f9d6d6" },
-    { id:"jablko-champion",name:"Jabłko Szampion", price:5.90,  unit:"kg", emoji:"🍎", bg:"#f9d6d6" },
-    { id:"ogorki-t",       name:"Ogórki tunelowe", price:14.00, unit:"kg", emoji:"🥒", bg:"#dcefc8" },
-    { id:"ogorek-sz",      name:"Ogórek szklarniowy",price:10.00,unit:"kg", emoji:"🥒", bg:"#d3ecc0" },
+    
+    // ZBIORCZE JABŁKO Z ROZSUWANYM MENU
+    { 
+      id:"jablko", 
+      name:"Jabłko", 
+      price:5.90,  
+      unit:"kg", 
+      emoji:"🍎", 
+      bg:"#f9d6d6",
+      isGroup: true,
+      variants: [
+        { id:"jablko-lobo", name:"Jabłko Lobo" },
+        { id:"jablko-ligol", name:"Jabłko Ligol" },
+        { id:"jablko-prince", name:"Jabłko Prince" },
+        { id:"jablko-szkolne", name:"Jabłko szkolne" },
+        { id:"jablko-golden", name:"Jabłko Golden" },
+        { id:"jablko-mutsu", name:"Jabłko Mutsu" },
+        { id:"jablko-renata", name:"Szara Reneta" },
+        { id:"jablko-champion", name:"Jabłko Szampion" }
+      ]
+    },
+
+    { id:"ogorek",         name:"Ogórek",          price:12.00, unit:"kg", emoji:"🥒", bg:"#dcefc8" },
     { id:"papryka",        name:"Papryka",         price:10.00, unit:"kg", emoji:"🫑", bg:"#fde0c2" },
     { id:"cukinia",        name:"Cukinia",         price:7.00,  unit:"kg", emoji:"🥒", bg:"#dfeab8" },
     { id:"cebula",         name:"Cebula",          price:2.50,  unit:"kg", emoji:"🧅", bg:"#f0e2cf" },
-    { id:"ziemniaki",      name:"Ziemniaki",       price:2.50,  unit:"kg", emoji:"🥔", bg:"#f1e4c8" },
-    { id:"pom-kokt",       name:"Pomidor koktajlowy",price:14.90,unit:"kg", emoji:"🍅", bg:"#fbd9d0" },
-    { id:"pom-mal",        name:"Pomidor malinowy",price:18.00, unit:"kg", emoji:"🍅", bg:"#f8cdd0" },
-    { id:"pom-sal",        name:"Pomidor sałatkowy",price:10.00,unit:"kg", emoji:"🍅", bg:"#fbd9d0" },
+    { id:"ziemniak",       name:"Ziemniaki",       price:2.50,  unit:"kg", emoji:"🥔", bg:"#f1e4c8" },
     { id:"kiwi",           name:"Kiwi",            price:18.00, unit:"kg", emoji:"🥝", bg:"#dcebb4" },
-    { id:"pomarancze",     name:"Pomarańcze",      price:5.00,  unit:"kg", emoji:"🍊", bg:"#fde0b8" },
-    { id:"pom-zielone",    name:"Pomarańcze zielone",price:13.00,unit:"kg", emoji:"🍊", bg:"#e2efc0" },
     { id:"mandarynki",     name:"Mandarynki",      price:5.00,  unit:"kg", emoji:"🍊", bg:"#fdd9b0" },
-    { id:"sliwki",         name:"Śliwki węgierki", price:8.50,  unit:"kg", emoji:"🍇", bg:"#e0d3ec" },
+    { id:"pomarancza",     name:"Pomarańcze",      price:5.00,  unit:"kg", emoji:"🍊", bg:"#fde0b8" },
+    { id:"sliwka",         name:"Śliwka węgierki", price:8.50,  unit:"kg", emoji:"🍇", bg:"#e0d3ec" },
     { id:"banany",         name:"Banany",          price:6.90,  unit:"kg", emoji:"🍌", bg:"#fbf0b8" },
-    { id:"cytryny",        name:"Cytryny",         price:10.00, unit:"kg", emoji:"🍋", bg:"#fbf3b0" },
+    { id:"cytryna",        name:"Cytryny",         price:10.00, unit:"kg", emoji:"🍋", bg:"#fbf3b0" },
     { id:"winogrona",      name:"Winogrona",       price:10.00, unit:"kg", emoji:"🍇", bg:"#e6e0c0" }
   ]}
 ];
-const PRODUCTS = CATEGORIES.flatMap(c => c.items);
+
+// Płaska lista wszystkich produktów do obsługi koszyka
+const PRODUCTS = [];
+CATEGORIES.forEach(c => {
+  c.items.forEach(p => {
+    if (p.isGroup && p.variants) {
+      p.variants.forEach(v => {
+        PRODUCTS.push({
+          id: v.id,
+          name: v.name,
+          price: p.price,
+          unit: p.unit,
+          bg: p.bg,
+          emoji: p.emoji
+        });
+      });
+    } else {
+      PRODUCTS.push(p);
+    }
+  });
+});
 
 const $ = id => document.getElementById(id);
 const pln = n => n.toLocaleString("pl-PL", { style:"currency", currency:"PLN" });
@@ -244,10 +275,35 @@ function qtyLabel(p, q) {
 }
 const lineTotal = (p, q) => Math.round(p.price * q * 100) / 100;
 
-function tile(p, index) {
+function tile(p) {
+  if (p.isGroup) {
+    return `
+      <article class="tile">
+        <div class="ph" style="background:${p.bg}">
+          <img src="images/${p.id}.png" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+          <span style="display:none">${p.emoji}</span>
+        </div>
+        <div class="body">
+          <h3>${p.name}</h3>
+          <select class="variant-select" id="sel-${p.id}" aria-label="Wybierz odmianę">
+            ${p.variants.map(v => `<option value="${v.id}">${v.name}</option>`).join('')}
+          </select>
+          <div class="price"><b>${pln(p.price)}</b> / ${unitName(p)}</div>
+          <div class="qty">
+            <button type="button" data-group="${p.id}" data-d="-1" aria-label="Zmniejsz" disabled>−</button>
+            <span id="q-grp-${p.id}" aria-live="polite">0 kg</span>
+            <button type="button" data-group="${p.id}" data-d="1" aria-label="Zwiększ">+</button>
+          </div>
+        </div>
+      </article>`;
+  }
+
   return `
     <article class="tile">
-      <div class="ph" style="background:${p.bg}"><span>${p.emoji}</span></div>
+      <div class="ph" style="background:${p.bg}">
+        <img src="images/${p.id}.png" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+        <span style="display:none">${p.emoji}</span>
+      </div>
       <div class="body">
         <h3>${p.name}</h3>
         <div class="price"><b>${pln(p.price)}</b> / ${unitName(p)}</div>
@@ -259,20 +315,44 @@ function tile(p, index) {
       </div>
     </article>`;
 }
+
 function renderProducts() {
   $("products").innerHTML = CATEGORIES.map(c =>
     `<h3 class="cat">${c.title}</h3><div class="grid">${c.items.map(p => tile(p)).join("")}</div>`).join("");
 }
 
 $("products").addEventListener("click", e => {
-  const b = e.target.closest("button[data-id]");
+  const b = e.target.closest("button[data-id], button[data-group]");
   if (!b) return;
-  const p = PRODUCTS.find(x => x.id === b.dataset.id);
-  const q = Math.max(0, (cart[p.id] || 0) + step(p) * Number(b.dataset.d));
-  if (q) cart[p.id] = q; else delete cart[p.id];
-  const span = $("q-" + p.id);
-  span.textContent = qtyLabel(p, q);
+
+  let prodId;
+  if (b.dataset.group) {
+    const groupId = b.dataset.group;
+    const select = $(`sel-${groupId}`);
+    prodId = select.value;
+  } else {
+    prodId = b.dataset.id;
+  }
+
+  const p = PRODUCTS.find(x => x.id === prodId);
+  const q = Math.max(0, (cart[prodId] || 0) + step(p) * Number(b.dataset.d));
+  
+  if (q) cart[prodId] = q; else delete cart[prodId];
+  
+  const span = $(`q-${prodId}`);
+  if (span) span.textContent = qtyLabel(p, q);
   b.parentElement.querySelector('[data-d="-1"]').disabled = q === 0;
+
+  if (b.dataset.group) {
+    const groupId = b.dataset.group;
+    const groupDef = CATEGORIES.flatMap(c => c.items).find(x => x.id === groupId);
+    let totalGroupQ = 0;
+    groupDef.variants.forEach(v => {
+      totalGroupQ += (cart[v.id] || 0);
+    });
+    $(`q-grp-${groupId}`).textContent = qtyLabel(p, totalGroupQ);
+  }
+
   update();
 });
 
