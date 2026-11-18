@@ -1,0 +1,27 @@
+name: Telegram Image Uploader
+
+on:
+  repository_dispatch:
+    types: [upload-image]
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repozytorium
+        uses: actions/checkout@v4
+
+      - name: Zapisz plik graficzny
+        run: |
+          mkdir -p images
+          echo "${{ github.event.client_payload.image_base64 }}" | base64 -d > "images/${{ github.event.client_payload.filename }}.png"
+
+      - name: Commit i push zmiany na stronę
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          git config --global user.name "Bot Telegram"
+          git config --global user.email "bot@swiezawieza.pl"
+          git add images/
+          git commit -m "Automatyczna aktualizacja zdjęcia: ${{ github.event.client_payload.filename }}"
+          git push
