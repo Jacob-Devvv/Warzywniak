@@ -18,7 +18,7 @@
 html{scroll-behavior:smooth}
 body{font-family:Figtree,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding-bottom:100px; -webkit-text-size-adjust:100%}
 h1,h2,h3{font-family:"Bricolage Grotesque",Figtree,sans-serif;line-height:1.1}
-button,input,select{font:inherit;color:inherit}
+button,input{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--tomato);outline-offset:2px}
 .wrap{max-width:1180px;margin:0 auto;padding:0 16px}
 
@@ -52,7 +52,33 @@ h2{font-size:1.5rem;margin-bottom:14px;letter-spacing:-.01em}
 .price{color:var(--muted);font-size:0.9rem}
 .price b{color:var(--ink);font-size:1.05rem}
 
-.variant-select{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font-size:0.85rem;margin-bottom:4px}
+/* Nowy, elegancki wybierak odmian w formie pastylek */
+.variants-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 4px 0;
+}
+.variant-btn {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 5px 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: var(--muted);
+}
+.variant-btn:hover {
+  border-color: var(--leaf);
+  color: var(--ink);
+}
+.variant-btn.active {
+  background: var(--leaf);
+  color: #fff;
+  border-color: var(--leaf);
+}
 
 .qty{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:6px;background:var(--bg);border-radius:99px;padding:3px}
 .qty button{width:38px;height:38px;border:0;border-radius:50%;background:var(--leaf);color:#fff;font-size:1.3rem;line-height:1;cursor:pointer;flex-shrink:0}
@@ -200,7 +226,7 @@ const CATEGORIES = [
   { title: "Ważone (cena za 1 kg)", items: [
     { id:"buraki",         name:"Buraki",          price:4.00,  unit:"kg", emoji:"🫜", bg:"#ecd3e4" },
     
-    // ZBIORCZE JABŁKO Z ROZSUWANYM MENU
+    // ZBIORCZE JABŁKO Z ELEGANCKimi PRZYCISKAMI ODMIAN
     { 
       id:"jablko", 
       name:"Jabłko", 
@@ -210,14 +236,14 @@ const CATEGORIES = [
       bg:"#f9d6d6",
       isGroup: true,
       variants: [
-        { id:"jablko-lobo", name:"Jabłko Lobo" },
-        { id:"jablko-ligol", name:"Jabłko Ligol" },
-        { id:"jablko-prince", name:"Jabłko Prince" },
-        { id:"jablko-szkolne", name:"Jabłko szkolne" },
-        { id:"jablko-golden", name:"Jabłko Golden" },
-        { id:"jablko-mutsu", name:"Jabłko Mutsu" },
+        { id:"jablko-lobo", name:"Lobo" },
+        { id:"jablko-ligol", name:"Ligol" },
+        { id:"jablko-prince", name:"Prince" },
+        { id:"jablko-szkolne", name:"Szkolne" },
+        { id:"jablko-golden", name:"Golden" },
+        { id:"jablko-mutsu", name:"Mutsu" },
         { id:"jablko-renata", name:"Szara Reneta" },
-        { id:"jablko-champion", name:"Jabłko Szampion" }
+        { id:"jablko-champion", name:"Szampion" }
       ]
     },
 
@@ -230,7 +256,7 @@ const CATEGORIES = [
     { id:"mandarynki",     name:"Mandarynki",      price:5.00,  unit:"kg", emoji:"🍊", bg:"#fdd9b0" },
     { id:"pomarancza",     name:"Pomarańcze",      price:5.00,  unit:"kg", emoji:"🍊", bg:"#fde0b8" },
     { id:"sliwka",         name:"Śliwka węgierki", price:8.50,  unit:"kg", emoji:"🍇", bg:"#e0d3ec" },
-    { id:"kwiat", name:"Banany", price:6.90, unit:"kg", emoji:"🍌", bg:"#fbf0b8" },
+    { id:"kwiat",          name:"Banany",          price:6.90,  unit:"kg", emoji:"🍌", bg:"#fbf0b8" },
     { id:"cytryna",        name:"Cytryny",         price:10.00, unit:"kg", emoji:"🍋", bg:"#fbf3b0" },
     { id:"winogrona",      name:"Winogrona",       price:10.00, unit:"kg", emoji:"🍇", bg:"#e6e0c0" }
   ]}
@@ -244,7 +270,7 @@ CATEGORIES.forEach(c => {
       p.variants.forEach(v => {
         PRODUCTS.push({
           id: v.id,
-          name: v.name,
+          name: "Jabłko " + v.name,
           price: p.price,
           unit: p.unit,
           bg: p.bg,
@@ -253,6 +279,16 @@ CATEGORIES.forEach(c => {
       });
     } else {
       PRODUCTS.push(p);
+    }
+  });
+});
+
+// Przechowywanie aktualnie wybranej odmiany dla każdej grupy (domyślnie pierwsza)
+const activeVariants = {};
+CATEGORIES.forEach(c => {
+  c.items.forEach(p => {
+    if (p.isGroup && p.variants) {
+      activeVariants[p.id] = p.variants[0].id;
     }
   });
 });
@@ -277,6 +313,12 @@ const lineTotal = (p, q) => Math.round(p.price * q * 100) / 100;
 
 function tile(p) {
   if (p.isGroup) {
+    const currentActive = activeVariants[p.id];
+    let totalGroupQ = 0;
+    p.variants.forEach(v => {
+      totalGroupQ += (cart[v.id] || 0);
+    });
+    
     return `
       <article class="tile">
         <div class="ph" style="background:${p.bg}">
@@ -285,19 +327,23 @@ function tile(p) {
         </div>
         <div class="body">
           <h3>${p.name}</h3>
-          <select class="variant-select" id="sel-${p.id}" aria-label="Wybierz odmianę">
-            ${p.variants.map(v => `<option value="${v.id}">${v.name}</option>`).join('')}
-          </select>
+          <div class="variants-container">
+            ${p.variants.map(v => `
+              <button type="button" class="variant-btn ${v.id === currentActive ? 'active' : ''}" 
+                      data-group="${p.id}" data-variant="${v.id}">${v.name}</button>
+            `).join('')}
+          </div>
           <div class="price"><b>${pln(p.price)}</b> / ${unitName(p)}</div>
           <div class="qty">
-            <button type="button" data-group="${p.id}" data-d="-1" aria-label="Zmniejsz" disabled>−</button>
-            <span id="q-grp-${p.id}" aria-live="polite">0 kg</span>
-            <button type="button" data-group="${p.id}" data-d="1" aria-label="Zwiększ">+</button>
+            <button type="button" data-group-btn="${p.id}" data-d="-1" aria-label="Zmniejsz" ${totalGroupQ === 0 ? 'disabled' : ''}>−</button>
+            <span id="q-grp-${p.id}" aria-live="polite">${qtyLabel(p, totalGroupQ)}</span>
+            <button type="button" data-group-btn="${p.id}" data-d="1" aria-label="Zwiększ">+</button>
           </div>
         </div>
       </article>`;
   }
 
+  const q = cart[p.id] || 0;
   return `
     <article class="tile">
       <div class="ph" style="background:${p.bg}">
@@ -308,8 +354,8 @@ function tile(p) {
         <h3>${p.name}</h3>
         <div class="price"><b>${pln(p.price)}</b> / ${unitName(p)}</div>
         <div class="qty">
-          <button type="button" data-id="${p.id}" data-d="-1" aria-label="Zmniejsz" disabled>−</button>
-          <span id="q-${p.id}" aria-live="polite">${qtyLabel(p, 0)}</span>
+          <button type="button" data-id="${p.id}" data-d="-1" aria-label="Zmniejsz" ${q === 0 ? 'disabled' : ''}>−</button>
+          <span id="q-${p.id}" aria-live="polite">${qtyLabel(p, q)}</span>
           <button type="button" data-id="${p.id}" data-d="1" aria-label="Zwiększ">+</button>
         </div>
       </div>
@@ -322,38 +368,51 @@ function renderProducts() {
 }
 
 $("products").addEventListener("click", e => {
-  const b = e.target.closest("button[data-id], button[data-group]");
-  if (!b) return;
-
-  let prodId;
-  if (b.dataset.group) {
-    const groupId = b.dataset.group;
-    const select = $(`sel-${groupId}`);
-    prodId = select.value;
-  } else {
-    prodId = b.dataset.id;
+  // Obsługa kliknięcia w przycisk odmiany (pastylkę)
+  const varBtn = e.target.closest("button[data-variant]");
+  if (varBtn) {
+    const groupId = varBtn.dataset.group;
+    activeVariants[groupId] = varBtn.dataset.variant;
+    renderProducts();
+    return;
   }
 
-  const p = PRODUCTS.find(x => x.id === prodId);
-  const q = Math.max(0, (cart[prodId] || 0) + step(p) * Number(b.dataset.d));
-  
-  if (q) cart[prodId] = q; else delete cart[prodId];
-  
-  const span = $(`q-${prodId}`);
-  if (span) span.textContent = qtyLabel(p, q);
-  b.parentElement.querySelector('[data-d="-1"]').disabled = q === 0;
+  // Obsługa przycisków ilości (+ / -) dla zwykłych produktów
+  const bId = e.target.closest("button[data-id]");
+  if (bId) {
+    const prodId = bId.dataset.id;
+    const p = PRODUCTS.find(x => x.id === prodId);
+    const q = Math.max(0, (cart[prodId] || 0) + step(p) * Number(bId.dataset.d));
+    if (q) cart[prodId] = q; else delete cart[prodId];
+    
+    const span = $(`q-${prodId}`);
+    if (span) span.textContent = qtyLabel(p, q);
+    bId.parentElement.querySelector('[data-d="-1"]').disabled = q === 0;
+    update();
+    return;
+  }
 
-  if (b.dataset.group) {
-    const groupId = b.dataset.group;
+  // Obsługa przycisków ilości (+ / -) dla grupy jabłek
+  const bGrp = e.target.closest("button[data-group-btn]");
+  if (bGrp) {
+    const groupId = bGrp.dataset.group-btn || bGrp.getAttribute("data-group-btn");
+    const currentVariantId = activeVariants[groupId];
+    const p = PRODUCTS.find(x => x.id === currentVariantId);
     const groupDef = CATEGORIES.flatMap(c => c.items).find(x => x.id === groupId);
+    
+    const q = Math.max(0, (cart[currentVariantId] || 0) + step(p) * Number(bGrp.dataset.d));
+    if (q) cart[currentVariantId] = q; else delete cart[currentVariantId];
+
+    // Przelicz sumę dla całej grupy
     let totalGroupQ = 0;
     groupDef.variants.forEach(v => {
       totalGroupQ += (cart[v.id] || 0);
     });
-    $(`q-grp-${groupId}`).textContent = qtyLabel(p, totalGroupQ);
-  }
 
-  update();
+    $(`q-grp-${groupId}`).textContent = qtyLabel(groupDef, totalGroupQ);
+    bGrp.parentElement.querySelector('[data-d="-1"]').disabled = totalGroupQ === 0;
+    update();
+  }
 });
 
 const outside = () => distance !== null && distance > CONFIG.maxDistanceKm;
